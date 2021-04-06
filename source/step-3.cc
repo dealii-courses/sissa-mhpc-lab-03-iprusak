@@ -53,6 +53,7 @@ void
 Step3::make_grid()
 {
   GridGenerator::hyper_cube(triangulation, -1, 1);
+  triangulation.begin_active()->face(0)->set_boundary_id(1);
   triangulation.refine_global(5);
   std::cout << "Number of active cells: " << triangulation.n_active_cells()
             << std::endl;
