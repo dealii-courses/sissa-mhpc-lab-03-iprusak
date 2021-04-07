@@ -16,6 +16,12 @@
     "files.associations": {
         "*.inst": "cpp",
         "*.inst.in": "cpp",
-        "*.h": "cpp"
+        "*.h": "cpp",
+        "random": "cpp",
+        "ostream": "cpp",
+        "*.tcc": "cpp",
+        "future": "cpp",
+        "istream": "cpp",
+        "typeinfo": "cpp"
     }
 }

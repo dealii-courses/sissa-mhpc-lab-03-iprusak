@@ -23,6 +23,10 @@
 #define step3_include_file
 
 
+
+#include <deal.II/base/function_parser.h>
+#include <deal.II/base/parameter_acceptor.h>
+
 #include <deal.II/dofs/dof_handler.h>
 
 #include <deal.II/fe/fe_q.h>
@@ -33,20 +37,23 @@
 #include <deal.II/lac/vector.h>
 
 
+
 // Forward declare the tester class
 class Step3Tester;
 
 using namespace dealii;
-class Step3
+class Step3 : ParameterAcceptor
 {
 public:
   Step3();
   void
-  run();
+  run(const std::string &params);
+  void
+  initialize();
 
 protected:
   void
-  make_grid();
+  make_grid(const std::string &params);
   void
   setup_system();
   void
@@ -57,16 +64,25 @@ protected:
   output_results() const;
 
   Triangulation<2>     triangulation;
-  FE_Q<2>              fe;
   DoFHandler<2>        dof_handler;
   SparsityPattern      sparsity_pattern;
   SparseMatrix<double> system_matrix;
   Vector<double>       solution;
   Vector<double>       system_rhs;
 
+  FunctionParser<2> forcing_term;
+  FunctionParser<2> boundary_condition;
+
   friend class Step3Tester;
 
-  unsigned int n_refinements = 3;
+  unsigned int                  n_refinements                 = 3;
+  std::string                   output_name                   = "solution.vtk";
+  unsigned int                  fe_degree                     = 1;
+  std::string                   forcing_term_expression       = "1";
+  std::string                   boundary_contition_expression = "0";
+  std::map<std::string, double> function_constants;
+  std::string                   grid_generator_function  = "hyper_L";
+  std::string                   grid_generator_arguments = "-1: 1: false";
 };
 
 #endif
